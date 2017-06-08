@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="481eabfb-2c21-4a5d-a4fc-737c08fca481" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/hexocrweb/hexocrweb/db.sqlite3" afterPath="$PROJECT_DIR$/hexocrweb/hexocrweb/db.sqlite3" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/hexocrweb/hexocrweb/hexocrwebapp/migrations/0001_initial.py" afterPath="$PROJECT_DIR$/hexocrweb/hexocrweb/hexocrwebapp/migrations/0001_initial.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/hexocrweb/hexocrweb/hexocrwebapp/views.py" afterPath="$PROJECT_DIR$/hexocrweb/hexocrweb/hexocrwebapp/views.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -30,8 +31,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/hexocrweb/hexocrweb/hexocrwebapp/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="362">
-              <caret line="382" column="49" lean-forward="false" selection-start-line="382" selection-start-column="49" selection-end-line="382" selection-end-column="49" />
+            <state relative-caret-position="527">
+              <caret line="407" column="25" lean-forward="false" selection-start-line="404" selection-start-column="14" selection-end-line="407" selection-end-column="25" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -132,6 +133,32 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="hexocrwebapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hexocrweb" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hexocrweb" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hexocrweb" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hexocrweb" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hexocrwebapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="migrations" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -284,8 +311,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/hexocrweb/hexocrweb/hexocrwebapp/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="362">
-          <caret line="382" column="49" lean-forward="false" selection-start-line="382" selection-start-column="49" selection-end-line="382" selection-end-column="49" />
+        <state relative-caret-position="527">
+          <caret line="407" column="25" lean-forward="false" selection-start-line="404" selection-start-column="14" selection-end-line="407" selection-end-column="25" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>

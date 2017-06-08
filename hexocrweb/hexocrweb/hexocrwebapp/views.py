@@ -375,7 +375,6 @@ def ProcessImageToText(request):
             print("trying to increase the brightness and contrast of the image")
             #r, tm, bcimg = IncreaseContrastAndBrightness_ALPHA_BETA(img,alpha=3,beta=20)
             brightness,blur=GetBrightnessAndBlurValue(img)
-            print("brightness of the image is : {0}   blur is : {1}) ".format(brightness,blur))
             if(blur<float(200)):
                 r, tm, bcimg = ThresholdImage(img,threshold=90)
                 if not r:
@@ -403,10 +402,10 @@ def ProcessImageToText(request):
             print("trying to get text from image..")
 
             ret, m, data = getTextFromImage(fimg,converttogray=False)
-            try:
-                data=data.strip().replace("\n"," ")
-            except:
-                data=""
+            # try:
+            #     data=data.strip().replace("\n"," ")
+            # except:
+            #     data=""
             if (ret):
                 responsedata={"status":"ok","text":data}
 
