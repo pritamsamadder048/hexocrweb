@@ -214,7 +214,7 @@ class GetTextFromImage(APIView):
                 return  Response(responsedata)
 
             print("trying to increase the brightness and contrast of the image")
-            r,tm,bcimg=IncreaseContrastAndBrightness_ALPHA_BETA(img)
+            r,tm,bcimg=IncreaseContrastAndBrightness_ALPHA_BETA(img,alpha=3,beta=20)
             if not r:
                 responsedata = {"status": "error", "message": "please provide a clear image"}
                 return Response(responsedata)
@@ -366,17 +366,19 @@ def ProcessImageToText(request):
                 return render(request, urlpath, {"data": None,"image":None, "status": responsedata["status"],"message":responsedata["message"]})
 
             print("trying to increase the brightness and contrast of the image")
-            r, tm, bcimg = IncreaseContrastAndBrightness_ALPHA_BETA(img)
+            #r, tm, bcimg = IncreaseContrastAndBrightness_ALPHA_BETA(img,alpha=3,beta=20)
+            r, tm, bcimg = ThresholdImage(img,threshold=92)
             if not r:
                 responsedata = {"status": "error", "message": "please provide a clear image"}
                 return Response(responsedata)
-            print("trying to get the l channel value..")
-            r, tm, l = getLChannelOfLAB(bcimg)
-            if not r:
-                responsedata = {"status": "error", "message": "please provide a clear image"}
-                return Response(responsedata)
-
-            fimg = l.copy()
+            # print("trying to get the l channel value..")
+            # r, tm, l = getLChannelOfLAB(bcimg)
+            # if not r:
+            #     responsedata = {"status": "error", "message": "please provide a clear image"}
+            #     return Response(responsedata)
+            #
+            # fimg = l.copy
+            fimg=bcimg.copy()
             # cv2.imshow("img",img)
             # cv2.waitKey(0)
             # cv2.destroyAllWindows()

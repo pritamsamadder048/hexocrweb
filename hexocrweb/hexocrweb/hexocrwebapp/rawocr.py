@@ -41,10 +41,10 @@ def getTextFromImage(img, tesseract_path=None,converttogray=True):
 
         blurval=cv2.Laplacian(img, cv2.CV_64F).var()
         print("\n\nBlur Value : {0}\n\n".format(blurval))
-        if (not blurval > 100):
-            ret = False
-            message = "this image is too blurry"
-            return (ret, message, text)
+        # if (not blurval > 100):
+        #     ret = False
+        #     message = "this image is too blurry"
+        #     return (ret, message, text)
 
         if(converttogray):
             grey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -150,3 +150,43 @@ def IncreaseContrastAndBrightness_ALPHA_BETA(img,alpha=3,beta=10):
         print(exc_type, fname, exc_tb.tb_lineno)
         #print("error occured while processing image data")
         return (ret, message, r)
+
+
+
+def ThresholdImage(img,threshold=100,low=0,high=255,grayscale=True):
+
+    try:
+        if(grayscale):
+            gimg=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+            for k in range(0, img.shape[0]):
+                for l in range(0, img.shape[1]):
+                    if (gimg[k, l] < threshold):
+                        gimg[k,l] = 0
+                    else:
+                        gimg[k, l] = 255
+        else:
+            gimg  = img.copy()
+            for k in range(0, img.shape[0]):
+                for l in range(0, img.shape[1]):
+                    if (gimg[k, l] < threshold):
+                        gimg[k, l] = low
+                    else:
+                        gimg[k, l] = high
+        ret=True
+        message=None
+        return (ret,message,gimg)
+    except Exception as e:
+        ret = False
+        message = e.__str__()
+        gimg = None
+        # text = None
+
+        print("error occured while Thresholding")
+        print("error : ", e.__str__())
+
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+        # print("error occured while processing image data")
+        return (ret, message, gimg)
+
