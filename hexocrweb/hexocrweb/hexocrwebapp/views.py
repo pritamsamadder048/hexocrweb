@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
 from django.http import HttpResponse
+from pylab import array, plot, show, axis, arange, figure, uint8
 
 
 
@@ -91,13 +92,18 @@ def _grab_image(path=None, stream=None, url=None):
             elif stream is not None:
                 print("getting image from stream..")
                 data = stream.read()
+                #print(data)
 
             # convert the image to a NumPy array and then read it into
             # OpenCV format
             image = np.asarray(bytearray(data), dtype="uint8")
             image = cv2.imdecode(image, cv2.IMREAD_COLOR)
+            #cv2.imshow("image",image)
+            #cv2.waitKey(0)
+            #cv2.destroyAllWindows()
 
         # return the image
+        print("successfully read image data..")
         return image
     except Exception as e:
         print("error occured ")
@@ -183,7 +189,11 @@ class GetTextFromImage(APIView):
             #print("img_data : ",img_data)
             if request.FILES.get("image", None) is not None:
                 # grab the uploaded image
+                print("reading from stream")
                 img = _grab_image(stream=request.FILES["image"])
+                # cv2.imshow("img",img)
+                # cv2.waitKey(0)
+                # cv2.destroyAllWindows()
             elif img_data.get("image",None) is not None :
                 imgpath=img_data["image"]
                 print("img url : ",imgpath)
@@ -203,7 +213,25 @@ class GetTextFromImage(APIView):
                 pd.save()
                 return  Response(responsedata)
 
-            ret, m, data = getTextFromImage(img)
+            print("trying to increase the brightness and contrast of the image")
+            r,tm,bcimg=IncreaseContrastAndBrightness_ALPHA_BETA(img)
+            if not r:
+                responsedata = {"status": "error", "message": "please provide a clear image"}
+                return Response(responsedata)
+            print("trying to get the l channel value..")
+            r,tm,l=getLChannelOfLAB(bcimg)
+            if not r:
+                responsedata = {"status": "error", "message": "please provide a clear image"}
+                return Response(responsedata)
+
+            fimg=l.copy()
+            # cv2.imshow("img",img)
+            # cv2.waitKey(0)
+            # cv2.destroyAllWindows()
+
+            print("trying to get text from image..")
+            ret, m, data = getTextFromImage(fimg,converttogray=False)
+            print("ret : {0} \n\n ..... \n\n message : {1}".format(ret,m))
             try:
                 data=data.strip().replace("\n"," ")
             except:
@@ -248,10 +276,10 @@ class GetTextFromImage(APIView):
         except Exception as e:
             responsedata={"status": "error", "message": "please provide a clear image"}
             print("error occured : ",e)
-            if(DEBUG):
-                exc_type, exc_obj, exc_tb = sys.exc_info()
-                fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-                print(exc_type, fname, exc_tb.tb_lineno)
+
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            print(exc_type, fname, exc_tb.tb_lineno)
 
             pd = ProcessingData()
             #simg = pickle.dumps(img, protocol=0)
@@ -313,6 +341,9 @@ def ProcessImageToText(request):
                 # grab the uploaded image
                 print("grab image stream")
                 img = _grab_image(stream=request.FILES["image"])
+                # cv2.imshow("image",img)
+                # cv2.waitKey(0)
+                # cv2.destroyAllWindows()
             elif img_data.get("image",None) is not None :
                 imgpath=img_data["image"]
                 print("img url : ",imgpath)
@@ -334,7 +365,25 @@ def ProcessImageToText(request):
 
                 return render(request, urlpath, {"data": None,"image":None, "status": responsedata["status"],"message":responsedata["message"]})
 
-            ret, m, data = getTextFromImage(img)
+            print("trying to increase the brightness and contrast of the image")
+            r, tm, bcimg = IncreaseContrastAndBrightness_ALPHA_BETA(img)
+            if not r:
+                responsedata = {"status": "error", "message": "please provide a clear image"}
+                return Response(responsedata)
+            print("trying to get the l channel value..")
+            r, tm, l = getLChannelOfLAB(bcimg)
+            if not r:
+                responsedata = {"status": "error", "message": "please provide a clear image"}
+                return Response(responsedata)
+
+            fimg = l.copy()
+            # cv2.imshow("img",img)
+            # cv2.waitKey(0)
+            # cv2.destroyAllWindows()
+
+            print("trying to get text from image..")
+
+            ret, m, data = getTextFromImage(fimg,converttogray=False)
             try:
                 data=data.strip().replace("\n"," ")
             except:
