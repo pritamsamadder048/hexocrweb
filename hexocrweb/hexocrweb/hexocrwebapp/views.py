@@ -212,19 +212,26 @@ class GetTextFromImage(APIView):
                 pd.log=responsedata["message"]
                 pd.save()
                 return  Response(responsedata)
-
+            brightness, blur = GetBrightnessAndBlurValue(img)
+            print("brightness of the image is : {0}   blur is : {1}) ".format(brightness, blur))
+            if (blur < float(200)):
+                r, tm, bcimg = ThresholdImage(img, threshold=90)
+                if not r:
+                    responsedata = {"status": "error", "message": "please provide a clear image"}
+                    return Response(responsedata)
+                fimg = bcimg.copy()
+            else:
+                fimg = img.copy()
             print("trying to increase the brightness and contrast of the image")
-            r,tm,bcimg=IncreaseContrastAndBrightness_ALPHA_BETA(img,alpha=3,beta=20)
-            if not r:
-                responsedata = {"status": "error", "message": "please provide a clear image"}
-                return Response(responsedata)
-            print("trying to get the l channel value..")
-            r,tm,l=getLChannelOfLAB(bcimg)
-            if not r:
-                responsedata = {"status": "error", "message": "please provide a clear image"}
-                return Response(responsedata)
 
-            fimg=l.copy()
+
+            # print("trying to get the l channel value..")
+            # r,tm,l=getLChannelOfLAB(bcimg)
+            # if not r:
+            #     responsedata = {"status": "error", "message": "please provide a clear image"}
+            #     return Response(responsedata)
+
+
             # cv2.imshow("img",img)
             # cv2.waitKey(0)
             # cv2.destroyAllWindows()
@@ -371,14 +378,15 @@ def ProcessImageToText(request):
             print("brightness of the image is : {0}   blur is : {1}) ".format(brightness,blur))
             if(blur<float(200)):
                 r, tm, bcimg = ThresholdImage(img,threshold=90)
+                if not r:
+                    responsedata = {"status": "error", "message": "please provide a clear image"}
+                    return Response(responsedata)
                 fimg=bcimg.copy()
             else:
                 fimg=img.copy()
             # cv2.imshow("img",bcimg)
             # cv2.waitKey(0)
-            # if not r:
-            #     responsedata = {"status": "error", "message": "please provide a clear image"}
-            #     return Response(responsedata)
+
             # print("trying to get the l channel value..")
             # r, tm, l = getLChannelOfLAB(bcimg)
             # if not r:
