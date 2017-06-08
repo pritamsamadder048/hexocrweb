@@ -64,7 +64,7 @@ def getTextFromImage(img, tesseract_path=None,converttogray=True):
         Log()
         Log()
         print("succesfully extracted text from image")
-        return (ret, message, text)
+        return (ret, message,text)
 
     except Exception as e:
         ret = False
@@ -190,3 +190,23 @@ def ThresholdImage(img,threshold=100,low=0,high=255,grayscale=True):
         # print("error occured while processing image data")
         return (ret, message, gimg)
 
+def GetBrightnessAndBlurValue(img):
+    try:
+        blurval=0
+        hsv=cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
+        h, s, v = cv2.split(hsv)
+        bval = v.sum()
+        blurval = cv2.Laplacian(img, cv2.CV_64F).var()
+        return bval,blurval
+    except Exception as e:
+        v=0
+        print("error occured getting brightness value")
+        print("error : ", e.__str__())
+
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+        # print("error occured while processing image data")
+        del(hsv)
+        bval=v.sum()
+        return  bval,blurval
